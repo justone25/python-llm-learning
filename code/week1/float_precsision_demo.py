@@ -46,8 +46,41 @@ def float_precision_solution():
     quantity = 3
     total = price * quantity * (1 + tax_rate)
     print(f"Total: {total}") # 35.61
+    print(f"price value: {price}")
 
+def decimal_advanced_usage():
+    """ 演示Decimal的高级用法 """
+    print("\n=== Advanced Decimal Usage ===")
+
+    # 设置全局精度
+    getcontext().prec = 6
+
+    # 1. 从字符串创建Decimal(recomment)
+    d1 = Decimal('1.23456789')
+    print(f"Decimal from string: {d1}")
+
+    # 2. 从float创建Decimal(not recommended,精度会丢失)
+    d2 = Decimal(1.23456789)
+    print(f"Decimal from float: {d2}")
+
+    # 3. 数学运算
+    print("\nMathematical operations:")
+    x = Decimal('1.5')
+    print(f"Square root of {x}: {x.sqrt()}")
+    print(f"Exponential of {x}: {x.exp()}")
+
+def calculate_loan_payment(principal, rate, years):
+    """ 计算每月贷款还款金额 """
+    rate = Decimal(str(rate)) / 100 / 12
+    months = years * 12
+    payment = principal * rate * (1 + rate) ** months / ((1 + rate) ** months - 1)
+    return payment.quantize(Decimal('0.01'))
 
 if __name__ == "__main__":
     float_basics()
     float_precision_solution()
+    decimal_advanced_usage()
+
+    # 计算贷款还款金额
+    monthly_payment = calculate_loan_payment(526519, 3.3, 30)
+    print(f"Monthly payment: {monthly_payment}")
